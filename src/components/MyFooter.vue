@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="divBox" style="width: 50%">
-      <el-checkbox @change="changeCheck">已完成{{haveDone}} / 全部{{total}}</el-checkbox>
+      <el-checkbox :value="checkAllOrNot" @change="changeAllCheck">已完成{{haveDone}} / 全部{{total}}</el-checkbox>
     </div>
   </div>
 </template>
@@ -19,13 +19,12 @@ export default {
     },
 
     getTodoListCheckedLength(length){
-      console.log(length);
       this.haveDone = length
     },
 
     // 底部全选按钮的切换
-    changeCheck(value){
-      console.log(value);
+    changeAllCheck(value){
+      this.$bus.$emit('changeAllCheck',value)
     }
   },
   mounted() {
@@ -33,6 +32,9 @@ export default {
     this.$bus.$on('getTodoListCheckedLength',this.getTodoListCheckedLength)
   },
   computed:{
+    checkAllOrNot(){
+      return this.haveDone == this.total
+    }
   }
 }
 </script>

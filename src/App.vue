@@ -34,7 +34,9 @@ export default {
     changeCheck(id){
       this.todoList.forEach(element => {
         if(element.id == id) return element.done = !element.done
+        // if(element.id == id) return this.$set(element,'done',!element.done)
       });
+      console.log(this.todoList);
       this.getTodoListCheckedLength()
     },
 
@@ -53,6 +55,14 @@ export default {
     // 用于获取列表中已经选中的事件数
     getTodoListCheckedLength(){
       this.$bus.$emit('getTodoListCheckedLength',this.todoListCheckedLength)
+    },
+
+    // 底部全选按钮控制
+    changeAllCheck(value){
+      this.todoList.forEach( e => {
+        e.done = value
+      })
+      this.getTodoListCheckedLength() 
     }
   },
   components: {
@@ -67,6 +77,9 @@ export default {
     this.getTodoListLength()
     // 获取列表中已经选中的事件数，将事件数传递给子组件
     this.getTodoListCheckedLength()
+
+    // 底部全选按钮控制
+    this.$bus.$on('changeAllCheck',this.changeAllCheck)
   },
   computed: {
     todoListCheckedLength(){
