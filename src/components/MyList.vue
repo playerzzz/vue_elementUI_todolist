@@ -4,10 +4,13 @@
       <el-table-column label="计划" width="580">
         <template scope="scope">
           <div>
-            <el-checkbox 
-              class="checkText"
-              :checked="scope.row.done" 
-              @change="changeItemCheck(scope.row.id)">{{scope.row.title}}
+            <el-checkbox :checked="scope.row.done" @change="changeItemCheck(scope.row.id)">
+              <div class="checkText" v-if="scope.row.done">
+                {{scope.row.title}}
+              </div>
+              <div v-else>
+                {{scope.row.title }}
+              </div>
             </el-checkbox>
           </div>
         </template>
@@ -22,16 +25,25 @@
 export default {
   data() {
     return {
+      test: {
+        textStyle: ''
+      }
 
     }
   },
-  props: ['todos','changeCheck'],
+  props: ['todos', 'changeCheck'],
   methods: {
     // 当选择的状态发生变化时触发的函数
-    changeItemCheck(id){
+    changeItemCheck(id) {
+      this.test.textStyle = "line-through"
       this.changeCheck(id)
     }
   },
+  computed: {
+    textStyle() {
+      return
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -52,16 +64,10 @@ export default {
 
 // 关闭表格中添加的动画效果
 .el-table--enable-row-transition /deep/ .el-table__body td.el-table__cell {
-  transition:none !important
+  transition: none !important;
 }
 
-
-
-/deep/ .el-checkbox__label {
-  .checkText
-}
-
-.checkText  {
-  text-decoration: line-through !important;
+.checkText {
+  text-decoration: line-through;
 }
 </style>
