@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-table :data="todos" style="width: 50%" row-key="id">
+    <el-table :data="todos" style="width: 50%" row-key="id"  >
       <el-table-column label="计划" width="580">
         <template scope="scope">
           <div>
-            <el-checkbox :checked="scope.row.done" @change="changeItemCheck(scope.row.id)">
+            <el-checkbox v-model="scope.row.done" @change="changeItemCheck(scope.row.id)">
               <div class="checkText" v-if="scope.row.done">
                 {{scope.row.title}}
               </div>
