@@ -16,7 +16,9 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180">
-        <el-button type="danger" size="mini">删除</el-button>
+        <template scope="scope">
+          <el-button class="deleteButton" type="danger" @click="deleteTodo(scope.row.id)" size="mini">删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -25,18 +27,18 @@
 export default {
   data() {
     return {
-      test: {
-        textStyle: ''
-      }
-
     }
   },
   props: ['todos', 'changeCheck'],
   methods: {
     // 当选择的状态发生变化时触发的函数
     changeItemCheck(id) {
-      this.test.textStyle = "line-through"
-      this.changeCheck(id)
+      this.$bus.$emit('changeCheck', id)
+    },
+
+    // 删除某一项todo
+    deleteTodo(id) {
+      this.$bus.$emit('deleteTodo',id)
     }
   },
   computed: {
@@ -70,4 +72,15 @@ export default {
 .checkText {
   text-decoration: line-through;
 }
+
+.deleteButton {
+  display: none;
+}
+/deep/ .el-table__row {
+  height: 53px !important;
+}
+.el-table__row:hover .deleteButton{
+  display: block;
+}
+
 </style>
