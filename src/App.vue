@@ -1,28 +1,46 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <MyHeader :changeTodoList="changeTodoList"></MyHeader>
+    <MyList :todos="todoList" :changeCheck="changeCheck"></MyList>
+    <MyFooter></MyFooter>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MyList from './components/MyList.vue'
+import MyHeader from './components/MyHeader.vue'
+import MyFooter from './components/MyFooter.vue'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      todoList: [
+        { id: '001', title: '吃饭', done: true },
+        { id: '002', title: '睡觉', done: false },
+        { id: '003', title: '玩游戏', done: true }
+      ],
+    }
+  },
+  methods: {
+    // 添加计划做的事
+	  changeTodoList(todoItem){
+		  this.todoList.unshift(todoItem)
+	  },
+
+    // 更新每个代办项的状态
+    changeCheck(id){
+      console.log(id);
+    }
+
+
+  },
   components: {
-    HelloWorld
+    MyList, MyHeader, MyFooter
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+
 </style>
