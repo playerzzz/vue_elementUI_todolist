@@ -27,6 +27,7 @@ export default {
 	  changeTodoList(todoItem){
 		  this.todoList.unshift(todoItem)
       this.getTodoListLength()
+      this.getTodoListCheckedLength()
 	  },
 
     // 更新每个代办项的状态
@@ -34,35 +35,45 @@ export default {
       this.todoList.forEach(element => {
         if(element.id == id) return element.done = !element.done
       });
+      this.getTodoListCheckedLength()
     },
 
     // 删除某一项todo
     deleteTodo(id) {
       this.todoList = this.todoList.filter( e => e.id != id )
       this.getTodoListLength()
+      this.getTodoListCheckedLength()
     },
 
     // 用于统计列表长度
     getTodoListLength(){
-      console.log(this.todoList.length);
       this.$bus.$emit('getTodoListLength',this.todoList.length)
+    },
+
+    // 用于获取列表中已经选中的事件数
+    getTodoListCheckedLength(){
+      this.$bus.$emit('getTodoListCheckedLength',this.todoListCheckedLength)
     }
   },
   components: {
     MyList, MyHeader, MyFooter
-  },
-  created() {
-    this.getTodoListLength()
   },
   mounted() {
     // 更新每个事件的选中状态
     this.$bus.$on('changeCheck',this.changeCheck)
     // 删除某一项todo
     this.$bus.$on('deleteTodo',this.deleteTodo)
-    
+    // 获取todoList长度，将长度给子组件
+    this.getTodoListLength()
+    // 获取列表中已经选中的事件数，将事件数传递给子组件
+    this.getTodoListCheckedLength()
   },
   computed: {
-
+    todoListCheckedLength(){
+      return this.todoList.reduce( (pre,current) => {
+        return pre + (current.done ? 1 : 0)
+      },0)
+    }
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="divBox" style="width: 50%">
-      <el-checkbox>已完成0 / 全部{{total}}</el-checkbox>
+      <el-checkbox>已完成{{haveDone}} / 全部{{total}}</el-checkbox>
     </div>
   </div>
 </template>
@@ -15,12 +15,17 @@ export default {
   },
   methods: {
     getTodoListLength(length) {
-      console.log('footer' + length);
       this.total = length
+    },
+
+    getTodoListCheckedLength(length){
+      console.log(length);
+      this.haveDone = length
     }
   },
   mounted() {
     this.$bus.$on('getTodoListLength',this.getTodoListLength)
+    this.$bus.$on('getTodoListCheckedLength',this.getTodoListCheckedLength)
   },
   computed:{
     // total
